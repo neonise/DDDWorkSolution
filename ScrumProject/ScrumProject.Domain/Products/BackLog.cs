@@ -1,5 +1,4 @@
 ﻿using Library.Domain;
-
 namespace ScrumProject.Domain.Products;
 
 public class BackLog : Entity<int>

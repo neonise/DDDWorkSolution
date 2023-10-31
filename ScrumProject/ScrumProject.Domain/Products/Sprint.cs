@@ -1,10 +1,11 @@
 ﻿using Library.Domain;
+using ScrumProject.Domain.Products.Exceptions;
 
 namespace ScrumProject.Domain.Products;
 
 public class Sprint : Entity<int>
 {
-    private readonly HashSet<BackLog> _backLogs = new();
+    private List<BackLog> _backLogs = new();
     public string Title { get; init; }
     public DateTime ToDate { get; init; }
     public DateTime FromDate { get; init; }
@@ -17,8 +18,15 @@ public class Sprint : Entity<int>
         ToDate = toDate;
     }
 
-    public void AddNewBackLog(BackLog backLog)
+    public void AddNewBackLog(string backLogTitle, string backLogDescription)
     {
-        _backLogs.Add(backLog);
+        CheckRule(backLogTitle);
+        _backLogs.Add(new BackLog(backLogTitle, backLogDescription));
+    }
+
+    private void CheckRule(string backLogTitle)
+    {
+        if (_backLogs.Any(x => x.Title.Equals(backLogTitle)))
+            throw new BackLogDuplicateException();
     }
 }

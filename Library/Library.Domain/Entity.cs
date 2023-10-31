@@ -1,7 +1,7 @@
 ﻿namespace Library.Domain;
 public abstract class Entity<TId> : IEquatable<Entity<TId>>
 {
-    private readonly TId _id;
+    protected TId _id;
     protected Entity()
     {
     }
