@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Library\Library.Domain\Library.Domain.csproj" />
+    <ProjectReference Include="..\ScrumProject.Domain\ScrumProject.Domain.csproj" />
   </ItemGroup>
 
 </Project>

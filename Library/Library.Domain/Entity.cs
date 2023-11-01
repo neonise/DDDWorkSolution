@@ -1,11 +1,7 @@
 ﻿namespace Library.Domain;
 public abstract class Entity<TId> : IEquatable<Entity<TId>>
 {
-    protected TId _id;
-    protected Entity()
-    {
-    }
-    public TId Id => _id;
+    public TId Id { get; protected set; }
     public override bool Equals(object obj)
     {
         var entity = obj as Entity<TId>;

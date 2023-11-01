@@ -1,4 +1,6 @@
 ﻿using Library.Domain;
+using ScrumProject.Domain.Products.Entities;
+using ScrumProject.Domain.Products.Events;
 using ScrumProject.Domain.Products.Exceptions;
 using ScrumProject.Domain.Products.ValueObjects;
 using System.Text.Json;
@@ -18,7 +20,7 @@ public class Product : AggregateRoot<int>
         ProductTitle = productTitle;
         CreateDate = createDate;
         DeadlineDate = deadlineDate;
-        //_id = _releases.Any() ? _releases.Max(x => x.Id) + 1 : 1;
+        Id = _releases.Any() ? _releases.Max(x => x.Id) + 1 : 1;
     }
 
     //Is it Ok To Pass An Release Object Directly???
@@ -26,8 +28,9 @@ public class Product : AggregateRoot<int>
     {
         CheckRule(releaseTitle);
 
-        var releaseDate = DateTime.Now;
-        _releases.Add(new Release(releaseTitle, releaseDate));
+        var release = new Release(releaseTitle, DateTime.Now);
+        _releases.Add(release);
+        AddEvent(new ReleaseCreatedEvent(this, release));
     }
 
     private void CheckRule(string releaseTitle)

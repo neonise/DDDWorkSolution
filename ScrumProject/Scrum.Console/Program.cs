@@ -1,5 +1,11 @@
-﻿using ScrumProject.Domain.Products;
+﻿using ScrumProject.Domain.Members;
+using ScrumProject.Domain.Members.Enums;
+using ScrumProject.Domain.Products;
 using ScrumProject.Domain.Products.ValueObjects;
+
+var backDeveloper = new Member("Molayi", MemberType.BackEndDeveloper);
+var frontDeveloper = new Member("Masoud", MemberType.FrontDeveloper);
+var po = new Member("Soheil", MemberType.PO);
 
 var productTitle = new ProductTitle("OMS");
 var createDate = DateTime.Now;
@@ -17,6 +23,9 @@ var sprint = release.Sprints.FirstOrDefault(x => x.Title.Equals("SprintOneFor_Re
 string backLogTitle = "Fall1402";
 string backLogDescription = "This is very important";
 sprint.AddNewBackLog(backLogTitle, backLogDescription);
+
+var backLog = sprint.BackLogs.FirstOrDefault(x => x.Title.Equals("Fall1402"));
+backLog.AssignTo(backDeveloper.Id);
 
 Console.WriteLine(product.ToString());
 Console.ReadLine();

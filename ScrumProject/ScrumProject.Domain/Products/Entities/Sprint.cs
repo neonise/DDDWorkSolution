@@ -1,7 +1,7 @@
 ﻿using Library.Domain;
 using ScrumProject.Domain.Products.Exceptions;
 
-namespace ScrumProject.Domain.Products;
+namespace ScrumProject.Domain.Products.Entities;
 
 public class Sprint : Entity<int>
 {
@@ -16,12 +16,15 @@ public class Sprint : Entity<int>
         Title = title;
         FromDate = fromDate;
         ToDate = toDate;
+        Id = _backLogs.Any() ? _backLogs.Max(x => x.Id) + 1 : 1;
     }
 
-    public void AddNewBackLog(string backLogTitle, string backLogDescription)
+    public void AddNewBackLog(string backLogTitle, string backLogDescription, int? memberId = null)
     {
         CheckRule(backLogTitle);
-        _backLogs.Add(new BackLog(backLogTitle, backLogDescription));
+        _backLogs.Add(new BackLog(backLogTitle,
+                                  backLogDescription,
+                                  memberId));
     }
 
     private void CheckRule(string backLogTitle)

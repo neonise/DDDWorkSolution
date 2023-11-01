@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ScrumProject.Application.Contract\ScrumProject.Application.Contract.csproj" />
+    <ProjectReference Include="..\ScrumProject.Application\ScrumProject.Application.csproj" />
+    <ProjectReference Include="..\ScrumProject.Domain\ScrumProject.Domain.csproj" />
+    <ProjectReference Include="..\ScrumProject.Persistence\ScrumProject.Persistence.csproj" />
+  </ItemGroup>
+
+</Project>
