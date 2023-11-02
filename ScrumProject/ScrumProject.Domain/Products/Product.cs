@@ -38,14 +38,4 @@ public class Product : AggregateRoot<int>
         if (_releases.Any(x => x.Title.Equals(releaseTitle)))
             throw new ReleaseDuplicateTitleException();
     }
-
-    public override string ToString()
-    {
-        var option = new JsonSerializerOptions
-        {
-            WriteIndented = true
-        };
-
-        return JsonSerializer.Serialize(this, option);
-    }
 }
