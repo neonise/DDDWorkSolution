@@ -1,9 +1,9 @@
 ﻿using Library.Domain;
+using ScrumProject.Domain.Products.Entities;
 using ScrumProject.Domain.Products.Exceptions;
 
-namespace ScrumProject.Domain.Products.Entities;
-
-public class Sprint : Entity<int>
+namespace ScrumProject.Domain.Sprints;
+public class Sprint : AggregateRoot<int>
 {
     private List<BackLog> _backLogs = new();
     public string Title { get; init; }

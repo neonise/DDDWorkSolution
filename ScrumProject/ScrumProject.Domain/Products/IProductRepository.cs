@@ -1,4 +1,5 @@
 ﻿using ScrumProject.Domain.Products.Entities;
+using ScrumProject.Domain.Releases;
 
 namespace ScrumProject.Domain.Products;
 public interface IProductRepository

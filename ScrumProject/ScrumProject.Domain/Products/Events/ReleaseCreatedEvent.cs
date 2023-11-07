@@ -1,6 +1,6 @@
 ﻿using Library.Domain;
 using MediatR;
-using ScrumProject.Domain.Products.Entities;
+using ScrumProject.Domain.Releases;
 
 namespace ScrumProject.Domain.Products.Events;
 public class ReleaseCreatedEvent : IDomainEvent, INotification

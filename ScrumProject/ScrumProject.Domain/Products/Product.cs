@@ -1,8 +1,8 @@
 ﻿using Library.Domain;
-using ScrumProject.Domain.Products.Entities;
 using ScrumProject.Domain.Products.Events;
 using ScrumProject.Domain.Products.Exceptions;
 using ScrumProject.Domain.Products.ValueObjects;
+using ScrumProject.Domain.Releases;
 using System.Text.Json;
 
 namespace ScrumProject.Domain.Products;

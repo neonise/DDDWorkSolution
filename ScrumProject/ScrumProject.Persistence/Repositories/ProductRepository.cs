@@ -1,5 +1,6 @@
 ﻿using ScrumProject.Domain.Products;
 using ScrumProject.Domain.Products.Entities;
+using ScrumProject.Domain.Releases;
 
 namespace ScrumProject.Persistence.Repositories;
 

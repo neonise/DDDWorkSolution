@@ -1,9 +1,10 @@
 ﻿using Library.Domain;
 using ScrumProject.Domain.Products.Exceptions;
+using ScrumProject.Domain.Sprints;
 
-namespace ScrumProject.Domain.Products.Entities;
+namespace ScrumProject.Domain.Releases;
 
-public class Release : Entity<int>
+public class Release : AggregateRoot<int>
 {
     private List<Sprint> _sprints = new();
     public string Title { get; init; }

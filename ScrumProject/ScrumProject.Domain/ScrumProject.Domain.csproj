@@ -14,4 +14,8 @@
     <ProjectReference Include="..\..\Library\Library.Domain\Library.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BackLogs\" />
+  </ItemGroup>
+
 </Project>
