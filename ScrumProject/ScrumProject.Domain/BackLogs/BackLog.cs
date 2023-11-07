@@ -1,8 +1,8 @@
 ﻿using Library.Domain;
 
-namespace ScrumProject.Domain.Products.Entities;
+namespace ScrumProject.Domain.BackLogs;
 
-public class BackLog : Entity<int>
+public class BackLog : AggregateRoot<int>
 {
     public string Title { get; init; }
     public string Description { get; init; }
