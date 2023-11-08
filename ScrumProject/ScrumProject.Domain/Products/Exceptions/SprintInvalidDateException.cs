@@ -1,4 +1,4 @@
-﻿using ScrumProject.Domain.Products.Constants;
+﻿using ScrumProject.Domain.Constants;
 
 namespace ScrumProject.Domain.Products.Exceptions;
 

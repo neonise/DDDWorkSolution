@@ -1,35 +1,33 @@
 ﻿using Library.Domain;
-using ScrumProject.Domain.Products.Entities;
 using ScrumProject.Domain.Products.Exceptions;
+using ScrumProject.Domain.Releases;
+using ScrumProject.Domain.Releases.ValueObjects;
+using ScrumProject.Domain.Sprints.Events;
 
 namespace ScrumProject.Domain.Sprints;
-public class Sprint : AggregateRoot<int>
+public class Sprint : AggregateRoot<Guid>
 {
-    private List<BackLog> _backLogs = new();
-    public string Title { get; init; }
+    public SprintTitle Title { get; init; }
     public DateTime ToDate { get; init; }
     public DateTime FromDate { get; init; }
-    public IReadOnlyCollection<BackLog> BackLogs => _backLogs;
-
-    public Sprint(string title, DateTime fromDate, DateTime toDate)
+    private Sprint(Release release, SprintTitle sprintTitle, DateTime fromDate, DateTime toDate)
     {
-        Title = title;
+        CheckRule(fromDate, toDate);
+        Title = sprintTitle;
         FromDate = fromDate;
         ToDate = toDate;
-        Id = _backLogs.Any() ? _backLogs.Max(x => x.Id) + 1 : 1;
+        Id = Guid.NewGuid();
+        AddEvent(new SprintCreatedEvent(this, release));
     }
 
-    public void AddNewBackLog(string backLogTitle, string backLogDescription, int? memberId = null)
+    public static Sprint CreateNew(Release release, SprintTitle sprintTitle, DateTime fromDate, DateTime toDate)
     {
-        CheckRule(backLogTitle);
-        _backLogs.Add(new BackLog(backLogTitle,
-                                  backLogDescription,
-                                  memberId));
+        return new Sprint(release, sprintTitle, fromDate, toDate);
     }
 
-    private void CheckRule(string backLogTitle)
+    private static void CheckRule(DateTime fromDate, DateTime toDate)
     {
-        if (_backLogs.Any(x => x.Title.Equals(backLogTitle)))
-            throw new BackLogDuplicateException();
+        if (fromDate.Equals(toDate))
+            throw new InvalidIntervalDateException();
     }
 }

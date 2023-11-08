@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using ScrumProject.Domain.Products.Events;
+using ScrumProject.Domain.Releases.Events;
 
 namespace ScrumProject.Application.Products.EventHandlers;
 public class ReleaseCreatedEventHandler : INotificationHandler<ReleaseCreatedEvent>

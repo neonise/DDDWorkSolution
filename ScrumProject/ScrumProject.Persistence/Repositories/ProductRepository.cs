@@ -1,35 +1,20 @@
 ﻿using ScrumProject.Domain.Products;
-using ScrumProject.Domain.Products.Entities;
-using ScrumProject.Domain.Releases;
+using ScrumProject.Domain.Products.ValueObjects;
 
 namespace ScrumProject.Persistence.Repositories;
 
 public class ProductRepository : IProductRepository
 {
-    private static readonly List<Product> Products = new();
-
-    public BackLog GetBackLogById(int backLogId)
+    private static readonly List<Product> Products = new()
     {
-        return Products.SelectMany(x => x.Releases.SelectMany(sp => sp.Sprints)
-        .SelectMany(bc => bc.BackLogs))
-           .SingleOrDefault(x => x.Id == backLogId);
-    }
+        new Product(new ProductTitle("OMS"),DateTime.Now,DateTime.Now.AddDays(21)),
+        new Product(new ProductTitle("TBS"),DateTime.Now,DateTime.Now.AddDays(40)),
+        new Product(new ProductTitle("BankingSolution"),DateTime.Now,DateTime.Now.AddDays(60))
+    };
 
-    public Product GetProductById(int productId)
+    public Product Get(Guid id)
     {
-        return Products.SingleOrDefault(x => x.Id == productId);
-    }
-
-    public Release GetReleaseById(int releaseId)
-    {
-        return Products.SelectMany(x => x.Releases)
-            .SingleOrDefault(x => x.Id == releaseId);
-    }
-
-    public Sprint GetSprintById(int sprintId)
-    {
-        return Products.SelectMany(x => x.Releases.SelectMany(sp => sp.Sprints))
-           .SingleOrDefault(x => x.Id == sprintId);
+        return Products.SingleOrDefault(x => x.Id == id);
     }
 
     public void Insert(Product product)

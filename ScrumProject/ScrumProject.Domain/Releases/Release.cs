@@ -1,38 +1,23 @@
 ﻿using Library.Domain;
-using ScrumProject.Domain.Products.Exceptions;
-using ScrumProject.Domain.Sprints;
+using ScrumProject.Domain.Products;
+using ScrumProject.Domain.Releases.Events;
+using ScrumProject.Domain.Releases.ValueObjects;
 
 namespace ScrumProject.Domain.Releases;
-
-public class Release : AggregateRoot<int>
+public class Release : AggregateRoot<Guid>
 {
-    private List<Sprint> _sprints = new();
-    public string Title { get; init; }
+    public ReleaseTitle Title { get; init; }
     public DateTime ReleaseDate { get; init; }
-    public IReadOnlyCollection<Sprint> Sprints => _sprints;
-
-    public Release(string title, DateTime releaseDate)
+    private Release(Product product, ReleaseTitle releaseTitle, DateTime releaseDate)
     {
-        Title = title;
+        Title = releaseTitle;
         ReleaseDate = releaseDate;
-        Id = _sprints.Any() ? _sprints.Max(x => x.Id) + 1 : 1;
+        Id = Guid.NewGuid();
+        AddEvent(new ReleaseCreatedEvent(product, this));
     }
 
-    public void AddNewSprint(string sprintTitle, DateTime fromDate, DateTime toDate)
+    public static Release CreateNew(Product product, ReleaseTitle releaseTitle, DateTime releaseDate)
     {
-        CheckRule(sprintTitle, fromDate, toDate);
-        _sprints.Add(new Sprint(sprintTitle,
-                                fromDate,
-                                toDate));
-    }
-
-    private void CheckRule(string sprintTitle, DateTime fromDate, DateTime toDate)
-    {
-        if (_sprints.Any(x => x.Title.Equals(sprintTitle)))
-            throw new ReleaseDuplicateTitleException();
-
-        if (_sprints.Any(x => x.FromDate >= fromDate && x.ToDate <= fromDate || x.FromDate >= toDate
-            && x.ToDate <= toDate))
-            throw new SprintInvalidDateException();
+        return new Release(product, releaseTitle, releaseDate);
     }
 }

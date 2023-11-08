@@ -2,7 +2,7 @@
 
 namespace ScrumProject.Application.Contract.Products.Commands;
 
-public class RegisterProductCommand : IRequest<int>
+public class RegisterProductCommand : IRequest<Guid>
 {
     public string Title { get; set; }
     public DateTime CreateDate { get; set; }

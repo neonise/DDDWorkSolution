@@ -1,7 +1,9 @@
 using MediatR;
-using ScrumProject.Application.Members.Commands;
-using ScrumProject.Domain.Members;
+using ScrumProject.Application.Products.Handlers.Commands;
+using ScrumProject.Domain.BackLogs;
 using ScrumProject.Domain.Products;
+using ScrumProject.Domain.Releases;
+using ScrumProject.Domain.Sprints;
 using ScrumProject.Persistence.Repositories;
 using System.Reflection;
 
@@ -13,9 +15,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddMediatR(typeof(RegisterMemberCommandHandler).GetTypeInfo().Assembly);
-builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+builder.Services.AddMediatR(typeof(RegisterProductCommandHandler).GetTypeInfo().Assembly);
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IReleaseRepository, ReleaseRepository>();
+builder.Services.AddScoped<ISprintRepository, SprintRepository>();
+builder.Services.AddScoped<IBackLogRepository, BackLogRepository>();
 
 
 var app = builder.Build();

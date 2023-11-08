@@ -1,8 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ScrumProject.Application.Contract.BackLogs.Commands;
 using ScrumProject.Application.Contract.Products.Commands;
-using ScrumProject.Application.Contract.Products.Queries;
-using ScrumProject.Domain.Products;
+using ScrumProject.Application.Contract.Releases.Commands;
+using ScrumProject.Application.Contract.Sprints.Commands;
 
 namespace ScrumProject.Api.Controllers;
 
@@ -19,7 +20,7 @@ public class ProductsController : ControllerBase
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
     public async Task<IActionResult> InsertAsync([FromBody] RegisterProductCommand command, CancellationToken cancellationToken)
     {
         var id = await _mediator.Send(command, cancellationToken);
@@ -28,7 +29,7 @@ public class ProductsController : ControllerBase
 
     [HttpPost("release")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
     public async Task<IActionResult> InsertReleaseAsync([FromBody] RegisterReleaseCommand command, CancellationToken cancellationToken)
     {
         await _mediator.Send(command, cancellationToken);
@@ -37,7 +38,7 @@ public class ProductsController : ControllerBase
 
     [HttpPost("sprint")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
     public async Task<IActionResult> InsertSprintAsync([FromBody] RegisterSprintCommand command, CancellationToken cancellationToken)
     {
         await _mediator.Send(command, cancellationToken);
@@ -46,28 +47,10 @@ public class ProductsController : ControllerBase
 
     [HttpPost("backlog")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
     public async Task<IActionResult> InsertBackLogAsync([FromBody] RegisterBackLogCommand command, CancellationToken cancellationToken)
     {
         await _mediator.Send(command, cancellationToken);
         return Ok();
-    }
-
-    [HttpPut("assign-backlog")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
-    public async Task<IActionResult> AssignBackLogAsync([FromBody] AssignBackLogCommand command, CancellationToken cancellationToken)
-    {
-        await _mediator.Send(command, cancellationToken);
-        return Ok();
-    }
-
-    [HttpGet]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetAsync([FromQuery] GetProductQuery query, CancellationToken cancellationToken)
-    {
-        var product = await _mediator.Send(query, cancellationToken);
-        return Ok(product);
     }
 }

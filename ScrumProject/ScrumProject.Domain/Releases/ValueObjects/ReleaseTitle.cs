@@ -1,8 +1,8 @@
 ﻿using Library.Domain;
 using ScrumProject.Domain.Products.Exceptions;
 
-namespace ScrumProject.Domain.Products.ValueObjects;
-public class ProductTitle : ValueObject
+namespace ScrumProject.Domain.Releases.ValueObjects;
+public class ReleaseTitle : ValueObject
 {
     public string Value { get; }
     protected override IEnumerable<object> GetEqualityComponents()
@@ -10,10 +10,10 @@ public class ProductTitle : ValueObject
         yield return Value;
     }
 
-    public ProductTitle(string value)
+    public ReleaseTitle(string value)
     {
         if (string.IsNullOrEmpty(value))
-            throw new InvalidProductTitleException();
+            throw new InvalidReleaseTitleException();
 
         Value = value;
     }
