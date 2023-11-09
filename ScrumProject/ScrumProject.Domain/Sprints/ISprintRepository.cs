@@ -4,4 +4,5 @@ public interface ISprintRepository
 {
     void Insert(Sprint sprint);
     Sprint Get(Guid id);
+    bool ExistByReleaseId(Guid releaseId);
 }

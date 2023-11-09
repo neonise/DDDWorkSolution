@@ -6,16 +6,21 @@ namespace ScrumProject.Domain.Products;
 
 public class Product : AggregateRoot<Guid>
 {
-    public ProductTitle ProductTitle { get; init; }
-    public DateTime CreateDate { get; init; }
-    public DateTime DeadlineDate { get; init; }
+    public ProductTitle ProductTitle { get; private set; }
+    public DateTime CreateDate { get; private set; }
+    public DateTime DeadlineDate { get; private set; }
     public Product(ProductTitle productTitle, DateTime createDate, DateTime deadlineDate)
     {
-        CheckRule(createDate, deadlineDate);
         ProductTitle = productTitle;
         CreateDate = createDate;
         DeadlineDate = deadlineDate;
         Id = Guid.NewGuid();
+    }
+
+    public static Product CreateNew(ProductTitle productTitle, DateTime createDate, DateTime deadlineDate)
+    {
+        CheckRule(createDate, deadlineDate);
+        return new Product(productTitle, createDate, deadlineDate);
     }
 
     private static void CheckRule(DateTime createDate, DateTime deadlineDate)

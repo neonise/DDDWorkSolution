@@ -21,7 +21,11 @@ public class RemoveReleaseCommandHandler : IRequestHandler<RemoveReleaseCommand,
     public Task<Guid> Handle(RemoveReleaseCommand request, CancellationToken cancellationToken)
     {
         var release = _releaseRepository.Get(request.ReleaseId);
+        var sprintsExist = _sprintRepository.ExistByReleaseId(release.Id);
+        if (sprintsExist)
+            throw new Exception();
 
-        throw new NotImplementedException();
+        _releaseRepository.Delete(release);
+        return Task.FromResult(release.Id);
     }
 }

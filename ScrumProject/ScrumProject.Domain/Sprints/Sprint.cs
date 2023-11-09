@@ -1,18 +1,17 @@
 ﻿using Library.Domain;
 using ScrumProject.Domain.Products.Exceptions;
-using ScrumProject.Domain.Releases;
 using ScrumProject.Domain.Releases.ValueObjects;
-using ScrumProject.Domain.Sprints.Events;
 
 namespace ScrumProject.Domain.Sprints;
 public class Sprint : AggregateRoot<Guid>
 {
-    public SprintTitle Title { get; init; }
-    public DateTime ToDate { get; init; }
-    public DateTime FromDate { get; init; }
-    private Sprint(Release release, SprintTitle sprintTitle, DateTime fromDate, DateTime toDate)
+    public SprintTitle Title { get; private set; }
+    public DateTime ToDate { get; private set; }
+    public DateTime FromDate { get; private set; }
+    public Guid ReleaseId { get; private set; }
+    private Sprint(Guid releaseId, SprintTitle sprintTitle, DateTime fromDate, DateTime toDate)
     {
-        CheckRule(fromDate, toDate);
+        ReleaseId = releaseId;
         Title = sprintTitle;
         FromDate = fromDate;
         ToDate = toDate;
@@ -20,9 +19,10 @@ public class Sprint : AggregateRoot<Guid>
         //AddEvent(new SprintCreatedEvent(this, release));
     }
 
-    public static Sprint CreateNew(Release release, SprintTitle sprintTitle, DateTime fromDate, DateTime toDate)
+    public static Sprint CreateNew(Guid releaseId, SprintTitle sprintTitle, DateTime fromDate, DateTime toDate)
     {
-        return new Sprint(release, sprintTitle, fromDate, toDate);
+        CheckRule(fromDate, toDate);
+        return new Sprint(releaseId, sprintTitle, fromDate, toDate);
     }
 
     private static void CheckRule(DateTime fromDate, DateTime toDate)

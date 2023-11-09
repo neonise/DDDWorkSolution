@@ -1,29 +1,23 @@
 ﻿using Library.Domain;
-using ScrumProject.Domain.BackLogs.Events;
 using ScrumProject.Domain.Releases.ValueObjects;
-using ScrumProject.Domain.Sprints;
 namespace ScrumProject.Domain.BackLogs;
 
 public class BackLog : AggregateRoot<Guid>
 {
-    public BackLogTitle Title { get; init; }
-    public string Description { get; init; }
-    public int MemberId { get; private set; }
-    private BackLog(Sprint sprint, BackLogTitle backLogTitle, string description)
+    public BackLogTitle Title { get; private set; }
+    public string Description { get; private set; }
+    public Guid SprintId { get; private set; }
+    private BackLog(Guid sprintId, BackLogTitle backLogTitle, string description)
     {
         Title = backLogTitle;
+        SprintId = sprintId;
         Description = description;
         Id = Guid.NewGuid();
         //AddEvent(new BackLogCreatedEvent(sprint, this));
     }
 
-    public static BackLog CreateNew(Sprint sprint, BackLogTitle backLogTitle, string description)
+    public static BackLog CreateNew(Guid sprintId, BackLogTitle backLogTitle, string description)
     {
-        return new BackLog(sprint, backLogTitle, description);
-    }
-
-    public void AssignTo(int memberId)
-    {
-        MemberId = memberId;
+        return new BackLog(sprintId, backLogTitle, description);
     }
 }

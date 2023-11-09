@@ -23,7 +23,7 @@ public class RegisterReleaseCommandHandler : IRequestHandler<RegisterReleaseComm
             cancellationToken.ThrowIfCancellationRequested();
 
         var product = _productRepository.Get(request.ProductId);
-        var release = Release.CreateNew(product, new ReleaseTitle(request.Title), DateTime.Now);
+        var release = Release.CreateNew(product.Id, new ReleaseTitle(request.Title), DateTime.Now);
         _releaseRepository.Insert(release);
         return Task.FromResult(release.Id);
     }

@@ -24,7 +24,7 @@ public class RegisterBackLogCommandHandler : IRequestHandler<RegisterBackLogComm
             cancellationToken.ThrowIfCancellationRequested();
 
         var sprint = _sprintRepository.Get(request.SprintId);
-        var backLog = BackLog.CreateNew(sprint, new BackLogTitle(request.Title), request.Description);
+        var backLog = BackLog.CreateNew(sprint.Id, new BackLogTitle(request.Title), request.Description);
         _backLogRepository.Insert(backLog);
         return Task.FromResult(backLog.Id);
     }

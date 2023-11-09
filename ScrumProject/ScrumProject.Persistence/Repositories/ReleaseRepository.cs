@@ -1,17 +1,15 @@
-﻿using ScrumProject.Domain.Products;
-using ScrumProject.Domain.Products.ValueObjects;
-using ScrumProject.Domain.Releases;
-using ScrumProject.Domain.Releases.ValueObjects;
+﻿using ScrumProject.Domain.Releases;
 
 namespace ScrumProject.Persistence.Repositories;
 
 public class ReleaseRepository : IReleaseRepository
 {
-    private static readonly List<Release> Releases = new()
+    private static readonly List<Release> Releases = new();
+
+    public void Delete(Release release)
     {
-       Release.CreateNew(new Product(new ProductTitle("OMS"),DateTime.Now,DateTime.Now.AddDays(21)),new ReleaseTitle("release1"),DateTime.Now),
-       Release.CreateNew(new Product(new ProductTitle("OMS"),DateTime.Now,DateTime.Now.AddDays(21)),new ReleaseTitle("release2"),DateTime.Now)
-    };
+        Releases.Remove(release);
+    }
 
     public Release Get(Guid id)
     {

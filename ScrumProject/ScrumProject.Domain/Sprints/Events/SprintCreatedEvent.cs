@@ -5,8 +5,8 @@ namespace ScrumProject.Domain.Sprints.Events;
 
 public class SprintCreatedEvent : IDomainEvent, INotification
 {
-    public Sprint Sprint { get; init; }
-    public Release Release { get; init; }
+    public Sprint Sprint { get; private set; }
+    public Release Release { get; private set; }
     public SprintCreatedEvent(Sprint sprint, Release release)
     {
         Sprint = sprint;

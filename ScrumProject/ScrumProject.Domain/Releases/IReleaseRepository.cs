@@ -3,4 +3,5 @@ public interface IReleaseRepository
 {
     void Insert(Release release);
     Release Get(Guid id);
+    void Delete(Release release);
 }

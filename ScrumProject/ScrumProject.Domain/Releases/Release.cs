@@ -1,27 +1,27 @@
 ﻿using Library.Domain;
-using ScrumProject.Domain.Products;
 using ScrumProject.Domain.Releases.ValueObjects;
 
 namespace ScrumProject.Domain.Releases;
 public class Release : AggregateRoot<Guid>
 {
-    public ReleaseTitle Title { get; init; }
-    public DateTime ReleaseDate { get; init; }
-    private Release(Product product, ReleaseTitle releaseTitle, DateTime releaseDate)
+    public Guid ProductId { get; private set; }
+    public ReleaseTitle Title { get; private set; }
+    public DateTime ReleaseDate { get; private set; }
+
+    private Release(Guid productId, ReleaseTitle releaseTitle, DateTime releaseDate)
     {
         Title = releaseTitle;
+        ProductId = productId;
         ReleaseDate = releaseDate;
         Id = Guid.NewGuid();
         //AddEvent(new ReleaseCreatedEvent(product, this));
     }
 
-    public static Release CreateNew(Product product, ReleaseTitle releaseTitle, DateTime releaseDate)
+    public static Release CreateNew(Guid productId, ReleaseTitle releaseTitle, DateTime releaseDate)
     {
-        return new Release(product, releaseTitle, releaseDate);
-    }
-
-    public void Remove(Release release)
-    {
-        
+        var release = new Release(productId, releaseTitle, releaseDate);
+        //seccond approach for raising event
+        //release.AddEvent(new ReleaseCreatedEvent(product, release));
+        return release;
     }
 }
