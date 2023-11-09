@@ -36,6 +36,16 @@ public class ProductsController : ControllerBase
         return Ok();
     }
 
+    [HttpDelete("release")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+    public async Task<IActionResult> RemoveReleaseAsync([FromQuery] RegisterReleaseCommand command, CancellationToken cancellationToken)
+    {
+        await _mediator.Send(command, cancellationToken);
+        return Ok();
+    }
+
+
     [HttpPost("sprint")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]

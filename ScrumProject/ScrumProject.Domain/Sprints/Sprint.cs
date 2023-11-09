@@ -17,7 +17,7 @@ public class Sprint : AggregateRoot<Guid>
         FromDate = fromDate;
         ToDate = toDate;
         Id = Guid.NewGuid();
-        AddEvent(new SprintCreatedEvent(this, release));
+        //AddEvent(new SprintCreatedEvent(this, release));
     }
 
     public static Sprint CreateNew(Release release, SprintTitle sprintTitle, DateTime fromDate, DateTime toDate)

@@ -14,7 +14,7 @@ public class BackLog : AggregateRoot<Guid>
         Title = backLogTitle;
         Description = description;
         Id = Guid.NewGuid();
-        AddEvent(new BackLogCreatedEvent(sprint, this));
+        //AddEvent(new BackLogCreatedEvent(sprint, this));
     }
 
     public static BackLog CreateNew(Sprint sprint, BackLogTitle backLogTitle, string description)
