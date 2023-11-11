@@ -3,6 +3,6 @@
 public interface ISprintRepository
 {
     void Insert(Sprint sprint);
-    Sprint Get(Guid id);
-    bool ExistByReleaseId(Guid releaseId);
+    Task<Sprint> GetAsync(Guid id, CancellationToken cancellationToken);
+    Task<bool> ExistByReleaseIdAsync(Guid releaseId,CancellationToken cancellationToken);
 }

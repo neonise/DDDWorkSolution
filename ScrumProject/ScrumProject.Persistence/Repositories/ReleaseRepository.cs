@@ -1,23 +1,32 @@
-﻿using ScrumProject.Domain.Releases;
+﻿using Microsoft.EntityFrameworkCore;
+using ScrumProject.Domain.Releases;
 
 namespace ScrumProject.Persistence.Repositories;
 
 public class ReleaseRepository : IReleaseRepository
 {
-    private static readonly List<Release> Releases = new();
+    private readonly ScrumDbContext _context;
+    private readonly DbSet<Release> _releases;
+    public ReleaseRepository(ScrumDbContext context)
+    {
+        _context = context;
+        _releases = context.Releases;
+    }
 
     public void Delete(Release release)
     {
-        Releases.Remove(release);
+        _releases.Remove(release);
+        _context.SaveChanges();
     }
 
-    public Release Get(Guid id)
+    public Task<Release> GetAsync(Guid id, CancellationToken cancellationToken)
     {
-        return Releases.SingleOrDefault(x => x.Id == id);
+        return _releases.SingleOrDefaultAsync(release => release.Id == id, cancellationToken);
     }
 
     public void Insert(Release release)
     {
-        Releases.Add(release);
+        _releases.Add(release);
+        _context.SaveChanges();
     }
 }

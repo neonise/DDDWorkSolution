@@ -8,6 +8,10 @@ public class Release : AggregateRoot<Guid>
     public ReleaseTitle Title { get; private set; }
     public DateTime ReleaseDate { get; private set; }
 
+    private Release()
+    {
+        //ForEF
+    }
     private Release(Guid productId, ReleaseTitle releaseTitle, DateTime releaseDate)
     {
         Title = releaseTitle;
@@ -17,9 +21,9 @@ public class Release : AggregateRoot<Guid>
         //AddEvent(new ReleaseCreatedEvent(product, this));
     }
 
-    public static Release CreateNew(Guid productId, ReleaseTitle releaseTitle, DateTime releaseDate)
+    public static Release CreateNew(Guid productId, string title, DateTime releaseDate)
     {
-        var release = new Release(productId, releaseTitle, releaseDate);
+        var release = new Release(productId, new ReleaseTitle(title), releaseDate);
         //seccond approach for raising event
         //release.AddEvent(new ReleaseCreatedEvent(product, release));
         return release;

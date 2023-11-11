@@ -2,7 +2,6 @@
 using ScrumProject.Application.Contract.Releases.Commands;
 using ScrumProject.Domain.Products;
 using ScrumProject.Domain.Releases;
-using ScrumProject.Domain.Releases.ValueObjects;
 namespace ScrumProject.Application.Releases.Handlers.Commands;
 
 public class RegisterReleaseCommandHandler : IRequestHandler<RegisterReleaseCommand, Guid>
@@ -17,14 +16,11 @@ public class RegisterReleaseCommandHandler : IRequestHandler<RegisterReleaseComm
         _releaseRepository = releaseRepository;
     }
 
-    public Task<Guid> Handle(RegisterReleaseCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(RegisterReleaseCommand request, CancellationToken cancellationToken)
     {
-        if (cancellationToken.IsCancellationRequested)
-            cancellationToken.ThrowIfCancellationRequested();
-
-        var product = _productRepository.Get(request.ProductId);
-        var release = Release.CreateNew(product.Id, new ReleaseTitle(request.Title), DateTime.Now);
+        var product = await _productRepository.GetAsync(request.ProductId, cancellationToken);
+        var release = Release.CreateNew(product.Id, request.Title, DateTime.Now);
         _releaseRepository.Insert(release);
-        return Task.FromResult(release.Id);
+        return release.Id;
     }
 }

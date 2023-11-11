@@ -9,6 +9,10 @@ public class Sprint : AggregateRoot<Guid>
     public DateTime ToDate { get; private set; }
     public DateTime FromDate { get; private set; }
     public Guid ReleaseId { get; private set; }
+    private Sprint()
+    {
+        //ForEF
+    }
     private Sprint(Guid releaseId, SprintTitle sprintTitle, DateTime fromDate, DateTime toDate)
     {
         ReleaseId = releaseId;
@@ -19,10 +23,10 @@ public class Sprint : AggregateRoot<Guid>
         //AddEvent(new SprintCreatedEvent(this, release));
     }
 
-    public static Sprint CreateNew(Guid releaseId, SprintTitle sprintTitle, DateTime fromDate, DateTime toDate)
+    public static Sprint CreateNew(Guid releaseId, string title, DateTime fromDate, DateTime toDate)
     {
         CheckRule(fromDate, toDate);
-        return new Sprint(releaseId, sprintTitle, fromDate, toDate);
+        return new Sprint(releaseId, new SprintTitle(title), fromDate, toDate);
     }
 
     private static void CheckRule(DateTime fromDate, DateTime toDate)

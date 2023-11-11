@@ -1,24 +1,26 @@
-﻿using ScrumProject.Domain.Products;
-using ScrumProject.Domain.Products.ValueObjects;
+﻿using Microsoft.EntityFrameworkCore;
+using ScrumProject.Domain.Products;
 
 namespace ScrumProject.Persistence.Repositories;
 
 public class ProductRepository : IProductRepository
 {
-    private static readonly List<Product> Products = new()
+    private readonly ScrumDbContext _context;
+    private readonly DbSet<Product> _products;
+    public ProductRepository(ScrumDbContext context)
     {
-        new Product(new ProductTitle("OMS"),DateTime.Now,DateTime.Now.AddDays(21)),
-        new Product(new ProductTitle("TBS"),DateTime.Now,DateTime.Now.AddDays(40)),
-        new Product(new ProductTitle("BankingSolution"),DateTime.Now,DateTime.Now.AddDays(60))
-    };
+        _context = context;
+        _products = context.Products;
+    }
 
-    public Product Get(Guid id)
+    public Task<Product> GetAsync(Guid id, CancellationToken cancellationToken)
     {
-        return Products.SingleOrDefault(x => x.Id == id);
+        return _products.SingleOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
     public void Insert(Product product)
     {
-        Products.Add(product);
+        _products.Add(product);
+        _context.SaveChanges();
     }
 }

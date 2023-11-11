@@ -1,23 +1,31 @@
-﻿using ScrumProject.Domain.Sprints;
+﻿using Microsoft.EntityFrameworkCore;
+using ScrumProject.Domain.Sprints;
 
 namespace ScrumProject.Persistence.Repositories;
 
 public class SprintRepository : ISprintRepository
 {
-    private static readonly List<Sprint> Sprints = new();
-
-    public bool ExistByReleaseId(Guid releaseId)
+    private readonly ScrumDbContext _context;
+    private readonly DbSet<Sprint> _sprints;
+    public SprintRepository(ScrumDbContext context)
     {
-        return Sprints.Any(x => x.ReleaseId == releaseId);
+        _context = context;
+        _sprints = context.Sprints;
     }
 
-    public Sprint Get(Guid id)
+    public Task<bool> ExistByReleaseIdAsync(Guid releaseId, CancellationToken cancellationToken)
     {
-        return Sprints.SingleOrDefault(x => x.Id == id);
+        return _sprints.AnyAsync(x => x.ReleaseId == releaseId, cancellationToken);
+    }
+
+    public Task<Sprint> GetAsync(Guid id, CancellationToken cancellationToken)
+    {
+        return _sprints.SingleOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
     public void Insert(Sprint sprint)
     {
-        Sprints.Add(sprint);
+        _sprints.Add(sprint);
+        _context.SaveChanges();
     }
 }

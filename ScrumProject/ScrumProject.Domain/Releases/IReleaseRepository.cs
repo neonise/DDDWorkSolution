@@ -2,6 +2,6 @@
 public interface IReleaseRepository
 {
     void Insert(Release release);
-    Release Get(Guid id);
+    Task<Release> GetAsync(Guid id,CancellationToken cancellationToken);
     void Delete(Release release);
 }

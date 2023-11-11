@@ -3,5 +3,5 @@
 public interface IBackLogRepository
 {
     void Insert(BackLog backLog);
-    BackLog Get(Guid id);
+    Task<BackLog> GetAsync(Guid id, CancellationToken cancellationToken);
 }

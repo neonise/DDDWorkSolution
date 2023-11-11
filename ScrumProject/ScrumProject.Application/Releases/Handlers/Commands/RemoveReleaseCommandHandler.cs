@@ -18,14 +18,14 @@ public class RemoveReleaseCommandHandler : IRequestHandler<RemoveReleaseCommand,
         _sprintRepository = sprintRepository;
     }
 
-    public Task<Guid> Handle(RemoveReleaseCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(RemoveReleaseCommand request, CancellationToken cancellationToken)
     {
-        var release = _releaseRepository.Get(request.ReleaseId);
-        var sprintsExist = _sprintRepository.ExistByReleaseId(release.Id);
+        var release = await _releaseRepository.GetAsync(request.ReleaseId,cancellationToken);
+        var sprintsExist = await _sprintRepository.ExistByReleaseIdAsync(release.Id,cancellationToken);
         if (sprintsExist)
             throw new Exception();
 
         _releaseRepository.Delete(release);
-        return Task.FromResult(release.Id);
+        return release.Id;
     }
 }

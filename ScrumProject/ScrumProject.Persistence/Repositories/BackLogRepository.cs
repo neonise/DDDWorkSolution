@@ -1,18 +1,26 @@
-﻿using ScrumProject.Domain.BackLogs;
+﻿using Microsoft.EntityFrameworkCore;
+using ScrumProject.Domain.BackLogs;
 
 namespace ScrumProject.Persistence.Repositories;
 
 public class BackLogRepository : IBackLogRepository
 {
-    private static readonly List<BackLog> BackLogs = new();
-
-    public BackLog Get(Guid id)
+    private readonly ScrumDbContext _context;
+    private readonly DbSet<BackLog> _backLogs;
+    public BackLogRepository(ScrumDbContext context)
     {
-        return BackLogs.SingleOrDefault(x => x.Id == id);
+        _context = context;
+        _backLogs = context.BackLogs;
+    }
+
+    public Task<BackLog> GetAsync(Guid id, CancellationToken cancellationToken)
+    {
+        return _backLogs.SingleOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
     public void Insert(BackLog backLog)
     {
-        BackLogs.Add(backLog);
+        _backLogs.Add(backLog);
+        _context.SaveChanges();
     }
 }

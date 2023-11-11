@@ -2,5 +2,5 @@
 public interface IProductRepository
 {
     void Insert(Product product);
-    Product Get(Guid id);
+    Task<Product> GetAsync(Guid id,CancellationToken cancellationToken);
 }

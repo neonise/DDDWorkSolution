@@ -7,6 +7,12 @@ public class BackLog : AggregateRoot<Guid>
     public BackLogTitle Title { get; private set; }
     public string Description { get; private set; }
     public Guid SprintId { get; private set; }
+
+    private BackLog()
+    {
+        //ForEF
+    }
+
     private BackLog(Guid sprintId, BackLogTitle backLogTitle, string description)
     {
         Title = backLogTitle;
@@ -16,8 +22,8 @@ public class BackLog : AggregateRoot<Guid>
         //AddEvent(new BackLogCreatedEvent(sprint, this));
     }
 
-    public static BackLog CreateNew(Guid sprintId, BackLogTitle backLogTitle, string description)
+    public static BackLog CreateNew(Guid sprintId, string title, string description)
     {
-        return new BackLog(sprintId, backLogTitle, description);
+        return new BackLog(sprintId, new BackLogTitle(title), description);
     }
 }
