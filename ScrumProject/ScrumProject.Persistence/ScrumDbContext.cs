@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ScrumProject.Domain.BackLogs;
+using ScrumProject.Domain.BackLogs.Entities;
 using ScrumProject.Domain.Products;
 using ScrumProject.Domain.Releases;
 using ScrumProject.Domain.Sprints;
@@ -17,6 +18,7 @@ public class ScrumDbContext : DbContext
     public DbSet<Release> Releases { get; set; }
     public DbSet<Sprint> Sprints { get; set; }
     public DbSet<BackLog> BackLogs { get; set; }
+    public DbSet<BackLogComment> BackLogComments { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

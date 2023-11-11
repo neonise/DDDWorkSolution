@@ -63,4 +63,22 @@ public class ProductsController : ControllerBase
         await _mediator.Send(command, cancellationToken);
         return Ok();
     }
+
+    [HttpPost("backlog-comments")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+    public async Task<IActionResult> AddBackLogCommentAsync([FromBody] AddCommentCommand command, CancellationToken cancellationToken)
+    {
+        await _mediator.Send(command, cancellationToken);
+        return Ok();
+    }
+
+    [HttpDelete("backlog-comment")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+    public async Task<IActionResult> RemoveBackLogCommentAsync([FromBody] RemoveCommentCommand command, CancellationToken cancellationToken)
+    {
+        await _mediator.Send(command, cancellationToken);
+        return Ok();
+    }
 }

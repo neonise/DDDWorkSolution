@@ -15,12 +15,19 @@ public class BackLogRepository : IBackLogRepository
 
     public Task<BackLog> GetAsync(Guid id, CancellationToken cancellationToken)
     {
-        return _backLogs.SingleOrDefaultAsync(p => p.Id == id, cancellationToken);
+        return _backLogs
+            .Include(x => x.BackLogComments)
+            .SingleOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
     public void Insert(BackLog backLog)
     {
         _backLogs.Add(backLog);
         _context.SaveChanges();
+    }
+
+    public Task CommitAsync(CancellationToken cancellationToken)
+    {
+        return _context.SaveChangesAsync(cancellationToken);
     }
 }

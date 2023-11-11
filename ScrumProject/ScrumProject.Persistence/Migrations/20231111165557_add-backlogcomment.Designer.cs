@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ScrumProject.Persistence;
 
@@ -11,9 +12,10 @@ using ScrumProject.Persistence;
 namespace ScrumProject.Persistence.Migrations
 {
     [DbContext(typeof(ScrumDbContext))]
-    partial class ScrumDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231111165557_add-backlogcomment")]
+    partial class addbacklogcomment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
