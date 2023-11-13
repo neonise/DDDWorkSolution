@@ -1,6 +1,6 @@
 ﻿namespace ScrumProject.Domain.Products;
 public interface IProductRepository
 {
-    void Insert(Product product);
-    Task<Product> GetAsync(Guid id,CancellationToken cancellationToken);
+    Task AddAsync(Product product, CancellationToken cancellationToken);
+    Task<Product> GetAsync(Guid id, CancellationToken cancellationToken);
 }

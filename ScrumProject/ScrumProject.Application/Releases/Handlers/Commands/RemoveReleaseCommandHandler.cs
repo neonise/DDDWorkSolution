@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using ScrumProject.Application.Contract.Releases.Commands;
+using ScrumProject.Domain.Interfaces;
 using ScrumProject.Domain.Releases;
 using ScrumProject.Domain.Sprints;
 
@@ -9,13 +10,16 @@ public class RemoveReleaseCommandHandler : IRequestHandler<RemoveReleaseCommand,
 {
     private readonly IReleaseRepository _releaseRepository;
     private readonly ISprintRepository _sprintRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
     public RemoveReleaseCommandHandler(
         IReleaseRepository releaseRepository,
-        ISprintRepository sprintRepository)
+        ISprintRepository sprintRepository,
+        IUnitOfWork unitOfWork)
     {
         _releaseRepository = releaseRepository;
         _sprintRepository = sprintRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Guid> Handle(RemoveReleaseCommand request, CancellationToken cancellationToken)
@@ -26,6 +30,7 @@ public class RemoveReleaseCommandHandler : IRequestHandler<RemoveReleaseCommand,
             throw new Exception();
 
         _releaseRepository.Delete(release);
+        await _unitOfWork.CommitAsync(cancellationToken);
         return release.Id;
     }
 }
